@@ -1,0 +1,202 @@
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import axios from 'axios';
+import qs from 'qs';
+import { CircularProgress } from '@mui/material';
+
+const Display = () => {
+  const location = useLocation();
+  const [memeUrl, setMemeUrl] = useState('');
+  const [loading, setLoading] = useState(true);
+  const memeid = location.state?.memeId;
+  const textboxval = location.state?.textboxValues;
+
+  useEffect(() => {
+    async function makeRequest() {
+      try {
+        let data = qs.stringify({
+          template_id: memeid,
+          username: 'Monil',
+          password: '2?"m~YDADNj9t?T',
+          text0: textboxval[0],
+          text1: textboxval[1],
+          text2: textboxval[2],
+        });
+
+        let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: 'https://api.imgflip.com/caption_image',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Cookie: 'claim_key=Dz762SGhIUd9IrpWljf7yiU_nUxuOPid',
+          },
+          data: data,
+        };
+
+        const response = await axios.request(config);
+        console.log(JSON.stringify(response.data));
+
+        // Check if the response was successful
+        if (response.data.success) {
+          setMemeUrl(response.data.data.url); // Note: Use response.data.data.url
+        } else {
+          console.error('Failed to generate meme:', response.data.error_message);
+
+        }
+      } catch (error) {
+        // Handle the error condition if needed
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    makeRequest();
+  }, [memeid, textboxval]);
+
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  console.log('Meme URL:', memeUrl);
+
+  return (
+    <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+        {isValidURL(memeUrl) && (
+          <CardMedia
+            component="img"
+            height="300"
+            image={memeUrl}
+            alt="Generated Meme"
+          />
+        )}
+        <CardContent>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  );
+};
+
+// Function to check if a string is a valid URL
+function isValidURL(string) {
+  try {
+    new URL(string);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export default Display;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
+import axios from 'axios';
+import qs from 'qs';
+
+const Display = () => {
+    const location = useLocation();
+    const [memeUrl, setMemeUrl] = useState('');
+    const [loading, setLoading] = useState(true);
+    const memeid = location.state?.memeId;
+    const textboxval = location.state?.textboxValues;
+  
+    useEffect(() => {
+      async function makeRequest() {
+        try {
+          let data = qs.stringify({
+            template_id: memeid,
+            username: 'Monil',
+            password: '2?"m~YDADNj9t?T',
+            text0: textboxval[0],
+            text1: textboxval[1],
+            text2: textboxval[2],
+          });
+  
+          let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://api.imgflip.com/caption_image',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Cookie: 'claim_key=Dz762SGhIUd9IrpWljf7yiU_nUxuOPid',
+            },
+            data: qs.stringify(data),
+          };
+  
+
+        const response = await axios.request(config);
+        console.log(JSON.stringify(response.data));
+
+        // Check if the response was successful
+        if (response.data.success) {
+          setMemeUrl(response.data.data.url);
+        } else {
+          console.error('Failed to generate meme:', response.data.error_message);
+    
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    makeRequest();
+  }, [memeid, textboxval]);
+
+  console.log('Meme URL:', memeUrl);
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Card className='created-img' sx={{ maxWidth: 500, textAlign: 'center' }}>
+        <CardActionArea>
+        {isValidURL(memeUrl) && (
+          <CardMedia
+            component="img"
+            height="300"
+            image={memeUrl}
+            alt="Generated Meme"
+          />
+        )}
+        </CardActionArea>
+      </Card>
+    </div>
+  );
+};
+
+function isValidURL(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+export default Display;
