@@ -21,16 +21,16 @@ This is a simple web application that allows users to browse and create memes us
 ## Screenshots
 
 ### Main Page
-![Main Page](ProjectPhotos/main.png)
+![Main Page](ProjectPhotos/HomePage.png)
 
 ### Templates in Homepage
-![Templates](ProjectPhotos/template.png)
+![Templates](ProjectPhotos/Templates.png)
 
 ### Creating a Meme
-![Create Meme](ProjectPhotos/create.png)
+![Create Meme](ProjectPhotos/Create.png)
 
 ### Displaying a Meme
-![Display Meme](ProjectPhotos/display.png)
+![Display Meme](ProjectPhotos/Display.png)
 
 ## Getting Started
 
